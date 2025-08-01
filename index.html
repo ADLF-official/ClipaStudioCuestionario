@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clipa Studio cuestionario</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --secondary: #fff;
+            --accent: #fbbc05;
+            --bg: #f5f7fa;
+            --text: #202124;
+            --radius: 12px;
+        }
+        *{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:'Montserrat',sans-serif;background:var(--bg);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
+        .quiz-container{background:var(--secondary);width:100%;max-width:500px;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.1);}
+        .quiz-header{background:var(--primary);color:var(--secondary);text-align:center;padding:20px;}
+        .quiz-header h2{font-size:1.4rem;margin-bottom:5px;}
+        .progress-bar{width:100%;height:6px;background:rgba(255,255,255,0.3);border-radius:3px;margin-top:10px;}
+        .progress{height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .4s ease;}
+        .quiz-body{padding:30px;position:relative;min-height:320px;}
+        .question-slide{display:none;animation:fadeIn .5s ease;}
+        .question-slide.active{display:block;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+        label{display:block;margin-bottom:8px;font-weight:600;color:var(--text);}
+        input[type=text],select,textarea{width:100%;padding:10px;margin-bottom:20px;border:1px solid #ccc;border-radius:var(--radius);font-size:.95rem;}
+        .slider-wrap{margin-bottom:20px;}
+        .slider-wrap span{font-size:.9rem;display:inline-block;margin-bottom:5px;color:var(--text);}
+        input[type=range]{width:100%;accent-color:var(--primary);}
+        .btn-group{display:flex;justify-content:space-between;}
+        button{padding:12px 20px;border:none;border-radius:var(--radius);font-size:1rem;font-weight:600;cursor:pointer;transition:background .3s;}
+        #prev{background:#e0e0e0;color:#333;}
+        #prev:hover{background:#bdbdbd;}
+        #next{background:var(--primary);color:var(--secondary);}
+        #next:hover{background:#155ab6;}
+        #submit{width:100%;background:var(--accent);color:var(--text);margin-top:10px;display:none;}
+        #submit:hover{background:#e0a800;}
+        #thankyou-message{display:none;text-align:center;padding:40px;}
+        #thankyou-message h3{color:var(--primary);margin-bottom:15px;}
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h2>Clipa Studio cuestionario</h2>
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+        </div>
+        <div class="quiz-body">
+            <form id="quizForm">
+                <div class="question-slide active">
+                    <label for="nombre">1. Nombre completo:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="question-slide">
+                    <label for="experiencia">2. ¿Nivel de edición actual?</label>
+                    <select id="experiencia" name="experiencia">
+                        <option value="ninguno">Ninguno</option>
+                        <option value="basico">Básico</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+                <div class="question-slide">
+                    <label for="apps">3. Apps que usas:</label>
+                    <input type="text" id="apps" name="apps" placeholder="CapCut, InShot...">
+                </div>
+                <div class="question-slide">
+                    <label for="frecuencia">4. Frecuencia de publicación en IG:</label>
+                    <select id="frecuencia" name="frecuencia">
+                        <option value="diaria">Diaria</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="mensual">Mensual</option>
+                        <option value="ocasional">Ocasional</option>
+                    </select>
+                </div>
+                <div class="question-slide">
+                    <label for="tiempo_edicion">5. Tiempo de edición por video:</label>
+                    <select id="tiempo_edicion" name="tiempo_edicion">
+                        <option value="<30min">Menos de 30 min</option>
+                        <option value="30-60min">30-60 min</option>
+                        <option value="1-2h">1-2 h</option>
+                        <option value=">2h">Más de 2 h</option>
+                    </select>
+                </div>
+                <div class="question-slide">
+                    <div class="slider-wrap">
+                        <span>6. Dominio de transiciones (1-5):</span>
+                        <input type="range" id="transiciones" name="transiciones" min="1" max="5" value="3">
+                    </div>
+                    <div class="slider-wrap">
+                        <span>7. Confianza en corrección de color (1-5):</span>
+                        <input type="range" id="color" name="color" min="1" max="5" value="3">
+                    </div>
+                </div>
+                <div class="question-slide">
+                    <label for="plantillas">8. ¿Usas plantillas?</label>
+                    <select id="plantillas" name="plantillas">
+                        <option value="si">Sí</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="question-slide">
+                    <label for="storytelling">9. Habilidad de storytelling (1-5):</label>
+                    <input type="range" id="storytelling" name="storytelling" min="1" max="5" value="3">
+                </div>
+                <div class="question-slide">
+                    <label for="audio">10. Experiencia editando audio/música (1-5):</label>
+                    <input type="range" id="audio" name="audio" min="1" max="5" value="3">
+                </div>
+                <div class="question-slide">
+                    <label for="algoritmo">11. Conocimiento del algoritmo de Instagram:</label>
+                    <select id="algoritmo" name="algoritmo">
+                        <option value="ninguno">Ninguno</option>
+                        <option value="basico">Básico</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+                <div class="question-slide">
+                    <label for="objetivo">12. ¿Qué objetivo principal tienes con este curso?</label>
+                    <textarea id="objetivo" name="objetivo" rows="3"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="button" id="prev">Anterior</button>
+                    <button type="button" id="next">Siguiente</button>
+                </div>
+                <button type="submit" id="submit">Enviar</button>
+            </form>
+            <div id="thankyou-message">
+                <h3>¡Gracias!</h3>
+                <p>Tu cuestionario ha sido enviado correctamente. Te contactaremos pronto.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const slides=document.querySelectorAll('.question-slide');
+        const nextBtn=document.getElementById('next');
+        const prevBtn=document.getElementById('prev');
+        const submitBtn=document.getElementById('submit');
+        const progress=document.getElementById('progress');
+        const form=document.getElementById('quizForm');
+        const thankyou=document.getElementById('thankyou-message');
+        let current=0,total=slides.length;
+        function showSlide(i){slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));prevBtn.style.display=i? 'inline-block':'none';nextBtn.style.display=i===total-1? 'none':'inline-block';submitBtn.style.display=i===total-1? 'block':'none';progress.style.width=((i+1)/total)*100+'%';}
+        nextBtn.addEventListener('click',()=>{if(current<total-1)showSlide(++current);});
+        prevBtn.addEventListener('click',()=>{if(current>0)showSlide(--current);});
+        form.addEventListener('submit',e=>{e.preventDefault();let data={};new FormData(form).forEach((v,k)=>data[k]=v);let text=Object.entries(data).map(([k,v])=>`${k}: ${v}`).join('\n');fetch(`https://api.telegram.org/bot7609445234:AAHaIOs_atVGpS9dfD5VPpv5ohxW0dduMhQ/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:'929759981',text})}).then(r=>{if(r.ok){form.style.display='none';thankyou.style.display='block';}else alert('Error al enviar');}).catch(()=>alert('Fallo de red.'));});
+        showSlide(0);
+    </script>
+</body>
+</html>
